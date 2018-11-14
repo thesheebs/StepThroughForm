@@ -1,0 +1,164 @@
+﻿$white: #fff;
+$offWhite: #ebebeb; //light gray
+$textGrey: #464646; //dark gray text #333
+$brightOffWhite: #f4f4f4;
+$stepsGray: #808080;
+
+$FAblue: #095eb9; //navy
+$green: #1ac635;
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+/* Hide all the steps initially */
+
+fieldset:not(.active_fieldset) {
+    display: none;
+}
+
+.previous {
+    display: none;
+}
+
+#mainContent, html {
+    background-color: #095eb9;
+}
+
+.mw-md {
+    max-width: 525px;
+}
+
+hr {
+    border-top: 1px solid #095eb9 !important;
+}
+
+/* color for jQuery error text */
+.error {
+    color: #dc3545;
+}
+
+
+/* Buttons and text classes*/
+
+.text-navy {
+    color: #095eb9;
+}
+
+.btn-navy:not(:disabled):not(.disabled) {
+    background-color: #095eb9;
+    color: #fff;
+}
+
+.btn-navy:not(:disabled):not(.disabled):hover {
+    opacity: 0.8;
+}
+
+.previous:not(:disabled):not(.disabled) {
+    background-color: #cfd0d2;
+    color: #777;
+}
+
+.previous:not(:disabled):not(.disabled):hover {
+    opacity: 0.8;
+}
+/*STEPS*/
+#mySteps {
+    position: relative;
+    z-index: 1;
+
+    span {
+        color: $textGrey;
+    }
+
+
+    %remain-steps {
+        &:before {
+            content: counter(stepNum);
+            font-family: inherit;
+            font-weight: 700;
+        }
+        // line after
+        &:after {
+            background-color: $brightOffWhite !important;
+        }
+    }
+
+    .multi-steps {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+
+        > li {
+            counter-increment: stepNum;
+            text-align: center;
+            display: table-cell;
+            position: relative;
+            color: $FAblue;
+            z-index: 9999;
+
+            &:before {
+                content: '\f00c';
+                content: '\2713';
+                content: '\10003';
+                content: '\10004';
+                content: '\2713';
+                display: block;
+                margin: 0 auto 4px;
+                background-color: $green;
+                width: 36px;
+                height: 36px;
+                line-height: 32px;
+                text-align: center;
+                font-weight: bold;
+
+                border: {
+                    width: 2px;
+                    style: solid;
+                    color: transparent;
+                    radius: 50%;
+                }
+            }
+
+            &:after {
+                content: '';
+                height: 2px;
+                width: 100%;
+                background-color: $green;
+                position: absolute;
+                top: 16px;
+                left: 50%;
+                z-index: -1;
+            }
+
+            &:last-child {
+                &:after {
+                    display: none;
+                }
+            }
+
+            &.is-active {
+                @extend %remain-steps;
+
+                &:before {
+                    background-color: $FAblue;
+                    color: $white;
+                }
+
+                ~ li {
+                    color: $stepsGray;
+                    @extend %remain-steps;
+
+                    &:before {
+                        background-color: $brightOffWhite !important;
+                        /*border-color: $stepsGray !important;*/
+                    }
+                }
+            }
+        }
+    }
+}
+
+#mySteps .multi-steps > li.complete {
+    color: $white;
+}

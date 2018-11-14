@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sign Up</title>
+    <link rel="icon"
+          type="image/png"
+          href="favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link href="../StepThroughForm/sass/main.min.css" rel="stylesheet" />
+
+    <!-- Raleway Font CDN -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
+    <!-- Font Awesome CDN for using icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+          crossorigin="anonymous">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+            crossorigin="anonymous"></script>
+
+    <!-- jQuery Validate() CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+
+</head>
+
+<body>
+    <div id='mainContent'>
+        <div class='container py-5'>
+            <h2 class='text-center text-white pb-2'><span class="fas fa-user-plus"></span> Sign Up</h2>
+            <div class='mw-md mx-auto bg-white p-3 rounded'>
+                <div id="mySteps" class="my-3">
+                    <ul class="list-unstyled multi-steps">
+                        <li class='is-active'><span>Personal Info</span></li>
+                        <li><span>Your Address</span></li>
+                        <li><span>Access Credentials</span></li>
+                    </ul>
+                </div>
+                <form id="signUpform" onsubmit=' alert("You have reached the end of the form."); return false;'>
+                    <!-- Step 1 | First Name, Middle Name, Last Name -->
+                    <fieldset class='active_fieldset'>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label for="FirstName">First Name</label>
+                                <input type="text" class="form-control" id="fname" name="fname">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="MiddleName">Middle Name</label>
+                                <input type="text" class="form-control" id="MiddleName">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="LastName">Last Name</label>
+                                <input type="text" class="form-control" id="lname" name="lname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MobilePhone">Phone Number</label>
+                            <input type="text" class="form-control" id="Phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">Email</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
+                        </div>
+                    </fieldset>
+                    <!-- Step 2 | Address -->
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="Address">Address</label>
+                            <input type="text" class="form-control" id="Address" placeholder="1234 Main St">
+                        </div>
+                        <div class="form-group">
+                            <label for="Address2">Address 2</label>
+                            <input type="text" class="form-control" id="Address2" placeholder="Apartment, studio, or floor">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <label for="City">City</label>
+                                <input type="text" class="form-control" id="City" name='city'>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="State">State</label>
+                                <select id="State" class="form-control">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="Zip">Zip</label>
+                                <input type="text" class="form-control" id="Zip">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Step  | Access Credentials -->
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="Username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="ConfirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="ConfirmPassword" name="confirm_password">
+                        </div>
+                    </fieldset>
+                    <!-- Form Buttons-->
+                    <div class="form-buttons">
+                        <button type="button" class="previous btn btn-navy">&lt; Previous</button>
+                        <button type="button" class="next btn btn-navy">Next &gt;</button>
+                        <input type="submit" class="btn btn-navy" id="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            currentIndex = 0;
+            currentFormStep = 0;
+
+            // steps
+            var activeStep, nextStep, prevStep;
+
+            //fieldsets
+            var activeFS, nextFS, prevFS;
+
+
+            $(".next").click(function () {
+                // validate signup form on keyup and submit
+                $("#signUpform").validate({
+                    rules: {
+                        // fieldset 1
+                        fname: "required",
+                        lname: "required",
+                        phone: {
+                            required: true,
+                            minlength: 9
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        // fieldset 2
+                        city: {
+                            required: true,
+                            minlength: 2
+                        },
+                        // fieldset 3
+                        username: {
+                            required: true,
+                            minlength: 5
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        confirm_password: {
+                            required: true,
+                            minlength: 5,
+                            equalTo: "#password"
+                        },
+                    },
+                    messages: {
+                        // fieldset 1
+                        fname: "Enter your first name",
+                        lname: "Enter your last name",
+                        phone: {
+                            required: "Phone is required",
+                            minlength: "Must be at least 9 digits"
+                        },
+                        email: "Please enter a valid email address",
+                        // fieldset 2
+                        city: {
+                            required: "City is required",
+                            minlenght: "Must be at least two characters"
+                        },
+                        // fieldset 3
+                        username: {
+                            required: "Please enter a username",
+                            minlength: "Your username must consist of at least 5 characters"
+                        },
+                        password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long"
+                        },
+                        confirm_password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long",
+                            equalTo: "Please enter the same password as above"
+                        }
+                    }
+                });
+                // propose username by combining first- and lastname
+                $("#username").focus(function () {
+                    var firstname = $("#fname").val().substring(0, 1).toLowerCase();
+                    var lastname = $("#lname").val().toLowerCase();;
+                    if (firstname && lastname && !this.value) {
+                        this.value = firstname + lastname;
+                    }
+                });
+
+                if ($("#signUpform").valid() === true) {
+                    if ($('fieldset').is(':visible')) {
+                        // Hide/show correct buttons
+                        currentIndex += 1;
+                        getCase();
+                        // add is-active class to relevant step
+                        activeStep = $('#mySteps .is-active');
+                        nextStep = $('#mySteps .is-active').next('li');
+                        activeStep.removeClass();
+                        nextStep.addClass('is-active');
+
+                        // Hide/show relevant fieldset
+                        activeFS = $('fieldset:visible');
+                        nextFS = $('fieldset:visible').next('fieldset');
+                        activeFS.hide();
+                        nextFS.show();
+                    }
+                }
+            });
+
+            $(".previous").click(function () {
+                // Hide/show correct buttons
+                currentIndex -= 1;
+                getCase();
+
+                // add is-active class to relevant step
+                activeStep = $('#mySteps .is-active');
+                nextStep = $('#mySteps .is-active').prev('li');
+                activeStep.removeClass();
+                nextStep.addClass('is-active');
+
+                // Hide/show relevant fieldset
+                activeFS = $('fieldset:visible');
+                nextFS = $('fieldset:visible').prev('fieldset');
+                activeFS.hide();
+                nextFS.show();
+            });
+
+            // Show and hide the relevent buttons
+            function getCase() {
+                switch (currentIndex) {
+                    case 0:
+                        $('.previous').hide();
+                        $('#submit').hide();
+                        break;
+                    case 1:
+                        $('.previous').show();
+                        $('#submit').hide();
+                        $('.next').show();
+
+                        break;
+                    case 2:
+                        $('.previous').show();
+                        $('.next').hide();
+                        $('#submit').show();
+                }
+            }
+
+            getCase();
+        });
+    </script>
+</body>
+</html>
